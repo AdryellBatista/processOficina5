@@ -1,0 +1,13 @@
+
+<!-- ============================================================== -->
+<!-- Profile - style you can find in header.scss -->
+<!-- ============================================================== -->
+<!-- <a href="https://wrappixel.com/templates/materialpro-angular-dashboard/" class=" m-r-20 hidden-sm-up" mat-raised-button color="warn">Upgrade To Pro</a> -->
+<button [matMenuTriggerFor]="profile" mat-icon-button class="m-r-5"> <img src="assets/images/users/1.jpg" alt="user" class="profile-pic"> </button>
+<mat-menu #profile="matMenu" class="mymegamenu">
+    <button mat-menu-item>
+      <mat-icon style="color: #f9a825;">person</mat-icon> {{userLogado.nome}}
+     </button>
+    <button mat-menu-item (click)="logout()">
+        <mat-icon style="color: #f9a825;">exit_to_app</mat-icon> Sair </button>
+</mat-menu>

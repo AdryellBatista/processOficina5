@@ -1,0 +1,33 @@
+.btn-edit{
+  color:#757575;
+  cursor: pointer;
+}
+.btn-delete{
+  color:#f9a825;
+  cursor: pointer;
+}
+
+.btn-new{
+  color:#f9a825;
+  font-size: 40px;
+  cursor: pointer;
+}
+
+.btn-edit:hover{
+  color:#f9a825;
+}
+
+.btn-delete:hover{
+  color:#757575;
+}
+
+
+.example-headers-align .mat-expansion-panel-header-title,
+.example-headers-align .mat-expansion-panel-header-description {
+  flex-basis: 0;
+}
+
+.example-headers-align .mat-expansion-panel-header-description {
+  justify-content: space-between;
+  align-items: center;
+}

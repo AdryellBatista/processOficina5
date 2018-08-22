@@ -1,0 +1,142 @@
+<!-- LISTAR USUÁRIOS -->
+<div fxLayout="row" *ngIf="controlView == 1">
+  <div fxFlex.gt-sm="100%">
+    <mat-card>
+      <mat-card-content>
+        <mat-card-title>
+          <div fxFlex.gt-sm="95%">
+            Contatos
+          </div>
+          <div fxFlex.gt-sm="5%">
+            <mat-icon class="btn-new" *ngIf="userLogado.tipo == 1" (click)="newUser()">add_circle</mat-icon>
+          </div>
+        </mat-card-title>
+        <!-- <mat-card-subtitle>A selection list provides an interface for selecting values, where each list item is an option.</mat-card-subtitle> -->
+        <!-- <mat-selection-list #shoes>
+           <mat-list-option *ngFor="let item of arUsuarios">
+              {{item.nome}}
+           </mat-list-option>
+        </mat-selection-list> -->
+        <div >
+          <mat-form-field [color]="'warn'">
+            <input matInput placeholder="Digite para Pesquisar" (keyup)='filter($event)'>
+          </mat-form-field>
+        </div>
+        <table #table mat-table [dataSource]="arUsuarios" class="mat-elevation-z2" style="width: 100%; margin-top: 5px;">
+
+          <ng-container matColumnDef="id">
+            <th mat-header-cell *matHeaderCellDef> Id. </th>
+            <td mat-cell *matCellDef="let element"> {{element.id}} </td>
+          </ng-container>
+
+          <ng-container matColumnDef="nome">
+            <th mat-header-cell *matHeaderCellDef> Nome </th>
+            <td mat-cell *matCellDef="let element"> {{element.nome}} </td>
+          </ng-container>
+
+          <ng-container matColumnDef="login">
+            <th mat-header-cell *matHeaderCellDef> Login </th>
+            <td mat-cell *matCellDef="let element"> {{element.user}} </td>
+          </ng-container>
+
+          <ng-container matColumnDef="tipo">
+            <th mat-header-cell *matHeaderCellDef> Tipo </th>
+            <td mat-cell *matCellDef="let element"> {{(element.tipo == 1)?'ADMIN':'USER'}} </td>
+          </ng-container>
+
+          <ng-container matColumnDef="dtNas">
+            <th mat-header-cell *matHeaderCellDef> Dt. Nascimento </th>
+            <td mat-cell *matCellDef="let element"> {{dataFormatada(element.dtNas)}} </td>
+          </ng-container>
+
+          <ng-container matColumnDef="actions"  >
+            <th mat-header-cell *matHeaderCellDef> Ações </th>
+            <td mat-cell *matCellDef="let element">
+              <mat-icon class="btn-edit"  (click)="edit(element, false)">visibility</mat-icon> &nbsp;
+              <mat-icon class="btn-edit" *ngIf="userLogado.tipo == 1" (click)="edit(element, true)">create</mat-icon> &nbsp;
+              <mat-icon class="btn-delete" *ngIf="userLogado.tipo == 1" (click)="cofirmaDelete(element)">delete_sweep</mat-icon>
+            </td>
+          </ng-container>
+
+          <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+          <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+        </table>
+        <mat-paginator #paginator [length]="arUsuarios.length"
+              [pageSize]="arUsuarios.length"
+              [pageSizeOptions]="[arUsuarios.length]">
+        </mat-paginator>
+      </mat-card-content>
+    </mat-card>
+  </div>
+</div>
+<!-- FIM LISTAR USUÁRIOS -->
+
+
+<!-- FOMULÁRIO USUÁRIOS -->
+<mat-card *ngIf="controlView == 2">
+    <mat-card-content>
+      <form class="form-horizontal" [formGroup]="objFormUsuario" >
+        <input type="hidden" name="id" [(ngModel)]="objFormUsuario.controls['id'].value" formControlName="id">
+        <mat-card-title>{{titleCard}}</mat-card-title>
+            <mat-accordion class="example-headers-align" style="padding-top: 15px;">
+                <mat-expansion-panel [expanded]="step === 0" (opened)="setStep(0)" hideToggle="true">
+                    <mat-expansion-panel-header>
+                        <mat-panel-title> Dados Pessoais </mat-panel-title>
+                        <mat-panel-description> Digite os dados pessoais
+                            <mat-icon>account_circle</mat-icon>
+                        </mat-panel-description>
+                    </mat-expansion-panel-header>
+                    <mat-form-field [color]="'warn'">
+                      <input matInput placeholder="Nome" [(ngModel)]="objFormUsuario.controls['nome'].value" formControlName="nome">
+                    </mat-form-field>
+                    <mat-form-field [color]="'warn'">
+                      <input matInput placeholder="Login" [(ngModel)]="objFormUsuario.controls['user'].value" formControlName="user">
+                    </mat-form-field>
+                    <mat-form-field [color]="'warn'">
+                      <input matInput placeholder="Senha" type="password" [(ngModel)]="objFormUsuario.controls['senha'].value" formControlName="senha">
+                    </mat-form-field>
+                    <mat-action-row>
+                        <button mat-button color="warn" (click)="nextStep()">Próximo</button>
+                    </mat-action-row>
+                </mat-expansion-panel>
+                <mat-expansion-panel [expanded]="step === 1" (opened)="setStep(1)" hideToggle="true">
+                    <mat-expansion-panel-header>
+                        <mat-panel-title> Tipo de Usuário </mat-panel-title>
+                        <mat-panel-description> Escolha o tipo de usuário
+                            <mat-icon>person_outline</mat-icon>
+                        </mat-panel-description>
+                    </mat-expansion-panel-header>
+                    <mat-form-field [color]="'warn'">
+                      <mat-select placeholder="Tipo de Usuário" [(ngModel)]="objFormUsuario.controls['tipo'].value" formControlName="tipo">
+                        <mat-option [value]="1">ADMIN</mat-option>
+                        <mat-option [value]="2">USER</mat-option>
+                      </mat-select>
+                    </mat-form-field>
+                    <mat-action-row>
+                        <button mat-button color="warn" (click)="prevStep()">Anterior</button>
+                        <button mat-button color="warn" (click)="nextStep()">Próximo</button>
+                    </mat-action-row>
+                </mat-expansion-panel>
+                <mat-expansion-panel [expanded]="step === 2" (opened)="setStep(2)" hideToggle="true">
+                    <mat-expansion-panel-header>
+                        <mat-panel-title> Data de Nascimento </mat-panel-title>
+                        <mat-panel-description> Informe a data de nascimento
+                            <mat-icon>date_range</mat-icon>
+                        </mat-panel-description>
+                    </mat-expansion-panel-header>
+                    <mat-form-field [color]="'warn'">
+                        <input matInput placeholder="Data de nascimento" [matDatepicker]="picker" (focus)="picker.open()" readonly
+                        [(ngModel)]="objFormUsuario.controls['dtNas'].value" formControlName="dtNas"> </mat-form-field>
+                    <mat-datepicker #picker></mat-datepicker>
+                    <mat-action-row>
+                        <button mat-button color="warn" (click)="prevStep()">Anterior</button>
+                    </mat-action-row>
+                </mat-expansion-panel>
+            </mat-accordion>
+            <button mat-raised-button style="margin-top: 10px;" (click)="controlView = 1;">Cancelar</button>&nbsp;
+            <button mat-raised-button *ngIf="view" color="warn" style="margin-top: 10px;" (click)="save()">Salvar</button>
+
+      </form>
+    </mat-card-content>
+</mat-card>
+<!-- FIM FOMULÁRIO USUÁRIOS -->

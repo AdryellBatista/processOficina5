@@ -1,0 +1,22 @@
+<div class="row box " style="padding-top: 230px;">
+  <div fxFlex.gt-sm="25" fxFlex.gt-xs="25" fxFlex="25">
+  </div>
+  <div fxFlex.gt-sm="25" fxFlex.gt-xs="25" fxFlex="25">
+    <img src="assets/images/logo_oficina.png" alt="homepage" class="light-logo" style="width: 300px; margin-top: 75px;">
+  </div>
+  <div fxFlex.gt-sm="25" fxFlex.gt-xs="25" fxFlex="25" style="color: #fff; padding-top: 43px;">
+    <form class="form-horizontal" [formGroup]="objForm" >
+      <mat-form-field [color]="'warn'">
+          <input matInput class="campo" required [(ngModel)]="objForm.controls['user'].value" formControlName="user">
+          <mat-placeholder class="placeholder">Login</mat-placeholder>
+      </mat-form-field>
+      <mat-form-field [color]="'warn'">
+          <input matInput class="campo" required type="password" [(ngModel)]="objForm.controls['senha'].value" formControlName="senha">
+          <mat-placeholder class="placeholder">senha</mat-placeholder>
+      </mat-form-field>
+      <button mat-raised-button color="warn" (click)="logar()">Entrar</button>
+    </form>
+  </div>
+  <div fxFlex.gt-sm="25" fxFlex.gt-xs="25" fxFlex="25">
+  </div>
+</div>
