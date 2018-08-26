@@ -34,12 +34,12 @@ export class UsuariosComponent implements OnInit{
   )
   {
     this.objFormUsuario = formBuilder.group({
-      id   : [],
-      user :   ['', Validators.required],
-      nome :   ['', Validators.required],
-      tipo :   ['', Validators.required],
-      senha:   ['', Validators.required],
-      dtNas:   []
+      idUser    : [],
+      loginUser : ['', Validators.required],
+      nomeUser  : ['', Validators.required],
+      tipoUser  : ['', Validators.required],
+      senhaUser : ['', Validators.required],
+      dtNascUser: []
     });
   }
 
@@ -48,8 +48,16 @@ export class UsuariosComponent implements OnInit{
   }
 
   getUsuarios(){
-    this.arUsuarios = this.globalService.getUsuarios();
-    this.temp = this.arUsuarios;
+    //this.arUsuarios = this.globalService.getUsuarios();
+
+    this.globalService.getUsuarios().subscribe(
+      data=>{
+        this.arUsuarios = data;
+        this.temp = this.arUsuarios;
+        this.table.renderRows();
+        console.log(data);
+      }
+    );
   }
 
   newUser(){
@@ -63,20 +71,37 @@ export class UsuariosComponent implements OnInit{
     }
   save(){
     if(this.objFormUsuario.valid){
-      if(this.objFormUsuario.value.id){
+      if(this.objFormUsuario.value.idUser){
         //Update
-        this.globalService.updateUsuario(this.objFormUsuario.value);
-        this.getUsuarios();
-        this.userLogado = JSON.parse(localStorage.getItem('USER'));
-        this.controlView = 1;
-        this.openSnackBar('Usuário Editado com sucesso!','');
+        this.globalService.updateUsuario(this.objFormUsuario.value).subscribe(
+          data=>{
+            this.getUsuarios();
+            this.controlView = 1;
+            this.openSnackBar('Usuário Editado com sucesso!','');
+          },
+          err=>{
+            this.openSnackBar('Erro ao Editar usuário!','');
+
+          }
+        );
+        // this.getUsuarios();
+        // this.userLogado = JSON.parse(localStorage.getItem('USER'));
+        // this.controlView = 1;
 
       }else{
         //save
-        this.globalService.addUsuario(this.objFormUsuario.value);
-        this.getUsuarios();
-        this.controlView = 1;
-        this.openSnackBar('Usuário Salvo com sucesso!','');
+        console.log(this.objFormUsuario.value);
+        this.globalService.addUsuario(this.objFormUsuario.value).subscribe(
+          data=>{
+            this.getUsuarios();
+            this.controlView = 1;
+            this.openSnackBar('Usuário Salvo com sucesso!','');
+          },
+          err=>{
+            this.openSnackBar('Erro ao Salvar usuário!','');
+
+          }
+        );
 
       }
     }else{
@@ -87,12 +112,12 @@ export class UsuariosComponent implements OnInit{
   view : boolean;
   edit(obj, view){
     this.view = view;
-    this.objFormUsuario.controls['id'].setValue(obj.id);
-    this.objFormUsuario.controls['user'].setValue(obj.user);
-    this.objFormUsuario.controls['nome'].setValue(obj.nome);
-    this.objFormUsuario.controls['tipo'].setValue(obj.tipo);
-    this.objFormUsuario.controls['senha'].setValue(obj.senha);
-    this.objFormUsuario.controls['dtNas'].setValue(obj.dtNas);
+    this.objFormUsuario.controls['idUser'].setValue(obj.idUser);
+    this.objFormUsuario.controls['loginUser'].setValue(obj.loginUser);
+    this.objFormUsuario.controls['nomeUser'].setValue(obj.nomeUser);
+    this.objFormUsuario.controls['tipoUser'].setValue(obj.tipoUser);
+    this.objFormUsuario.controls['senhaUser'].setValue(obj.senhaUser);
+    this.objFormUsuario.controls['dtNascUser'].setValue(obj.dtNascUser);
     this.controlView = 2;
     this.titleCard = "Editar " + obj.nome;
 
@@ -105,16 +130,15 @@ export class UsuariosComponent implements OnInit{
 
     let dialogRef = this.dialog.open(DialogOverviewDialog, {
       width: '350px',
-      data: { id: obj.id, nome: obj.nome }
+      data: { idUser: obj.idUser, nomeUser: obj.nomeUser }
     });
     dialogRef.afterClosed().subscribe(result => {
       if(result != undefined){
         this.globalService.deleteUsuario(result).subscribe(data => {
+          console.log("Chamou? ", data);
           this.getUsuarios();
           this.controlView = 1;
           this.openSnackBar('Usuário Excluído com sucesso!','');
-          this.table.renderRows();
-
        });
       }
 
@@ -187,6 +211,12 @@ export class UsuariosComponent implements OnInit{
     return dia+"/"+mes+"/"+ano;
     // return data;
   }
+
+  dataFormatada2(data){
+    let dt = data.split('T')[0].split('-');
+    return dt[2]+"/"+dt[1]+"/"+dt[0];
+    // return data;
+  }
   //ACORDION
 }
 
@@ -196,12 +226,12 @@ export class UsuariosComponent implements OnInit{
   selector: 'dialog-overview-example-dialog',
   template: `<h1 mat-dialog-title>Excluir </h1>
 <div mat-dialog-content>
-  <p>Tem certeza que deseja excluir {{data.nome}}?</p>
+  <p>Tem certeza que deseja excluir {{data.nomeUser}}?</p>
 
 </div>
 <div mat-dialog-actions class="text-center">
   <button mat-button (click)="onNoClick()" tabindex="-1">Cancelar</button>
-  <button mat-button color="warn" [mat-dialog-close]="data.id" tabindex="2">Excluir</button>
+  <button mat-button color="warn" [mat-dialog-close]="data.idUser" tabindex="2">Excluir</button>
 
 </div>`
 })

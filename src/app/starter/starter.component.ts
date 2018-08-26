@@ -18,14 +18,21 @@ export class StarterComponent implements AfterViewInit, OnInit{
     user = 0
     arUsuarios = [];
     ngOnInit(){
-      this.arUsuarios = this.globalService.getUsuarios();
-      for(let i of this.arUsuarios){
-        // debugger;
-        if(i.tipo == 1){
-          this.admin += 1;
-        }else{
-          this.user += 1;
+
+
+
+      this.globalService.getUsuarios().subscribe(
+        data=>{
+          this.arUsuarios = data;
+          for(let i of this.arUsuarios){
+            // debugger;
+            if(i.tipoUser == 1){
+              this.admin += 1;
+            }else{
+              this.user += 1;
+            }
+          }
         }
-      }
+      );
     }
 }

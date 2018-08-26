@@ -27,7 +27,8 @@ import { GlobalsServices         } from './services/globals.services';
 import { ContatosServices        } from './services/contatos.services';
 import { AccessGuard             } from './guards/accessGuard';
 
-// import { HTTP_INTERCEPTORS            } from '@angular/common/http';
+import { TokenInterceptor        } from './services/token.interceptor';
+import { HTTP_INTERCEPTORS       } from '@angular/common/http';
 
 
 @NgModule({
@@ -55,6 +56,11 @@ import { AccessGuard             } from './guards/accessGuard';
     GlobalsServices,
     ContatosServices,
     AccessGuard,
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: TokenInterceptor,
+      multi: true
+    },
   {
     provide: LocationStrategy,
     useClass: HashLocationStrategy

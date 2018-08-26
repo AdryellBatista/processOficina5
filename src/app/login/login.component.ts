@@ -34,11 +34,21 @@ export class LoginComponent {
 
   logar(){
     if(this.objForm.valid){
-      if(this.globalService.logar(this.objForm.value)){
-        this.router.navigate(["/starter"]);
-      }else{
-        this.openSnackBar('Usuário ou Senha Inválidos','');
-      }
+      this.globalService.logar(this.objForm.value).subscribe(
+        data=>{
+          console.log("DATA :: ", data);
+          localStorage.setItem('USER',JSON.stringify(data[0]));
+          this.router.navigate(["/starter"]);
+        },
+        err=>{
+          this.openSnackBar('Usuáraio ou senha inválidos!','');
+        }
+      );
+      // if(this.globalService.logar(this.objForm.value)){
+      //   this.router.navigate(["/starter"]);
+      // }else{
+      //   this.openSnackBar('Usuário ou Senha Inválidos','');
+      // }
     }else{
       this.openSnackBar('Campos Obrigatórios não preenchidos','');
 
