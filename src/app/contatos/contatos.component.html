@@ -5,7 +5,7 @@
       <mat-card-content>
         <mat-card-title>
           <div fxFlex.gt-sm="95%">
-            Usuários
+            Contatos
           </div>
           <div fxFlex.gt-sm="5%">
             <mat-icon class="btn-new" *ngIf="userLogado.tipoUser == 1" (click)="newUser()">add_circle</mat-icon>
@@ -26,27 +26,27 @@
 
           <ng-container matColumnDef="id">
             <th mat-header-cell *matHeaderCellDef> Id. </th>
-            <td mat-cell *matCellDef="let element"> {{element.idUser}} </td>
+            <td mat-cell *matCellDef="let element"> {{element.idContato}} </td>
           </ng-container>
 
           <ng-container matColumnDef="nome">
             <th mat-header-cell *matHeaderCellDef> Nome </th>
-            <td mat-cell *matCellDef="let element"> {{element.nomeUser}} </td>
+            <td mat-cell *matCellDef="let element"> {{element.nomeContato}} </td>
           </ng-container>
 
-          <ng-container matColumnDef="login">
-            <th mat-header-cell *matHeaderCellDef> Login </th>
-            <td mat-cell *matCellDef="let element"> {{element.loginUser}} </td>
+          <ng-container matColumnDef="telefone">
+            <th mat-header-cell *matHeaderCellDef> Telefone </th>
+            <td mat-cell *matCellDef="let element"> {{element.telefoneContato}} </td>
           </ng-container>
 
-          <ng-container matColumnDef="tipo">
-            <th mat-header-cell *matHeaderCellDef> Tipo </th>
-            <td mat-cell *matCellDef="let element"> {{(element.tipoUser == 1)?'ADMIN':'USER'}} </td>
+          <ng-container matColumnDef="email">
+            <th mat-header-cell *matHeaderCellDef> Email </th>
+            <td mat-cell *matCellDef="let element"> {{element.emailContato}} </td>
           </ng-container>
 
           <ng-container matColumnDef="dtNas">
             <th mat-header-cell *matHeaderCellDef> Dt. Nascimento </th>
-            <td mat-cell *matCellDef="let element"> {{dataFormatada2(element.dtNascUser)}} </td>
+            <td mat-cell *matCellDef="let element"> {{dataFormatada2(element.dtNascContato)}} </td>
           </ng-container>
 
           <ng-container matColumnDef="actions"  >
@@ -76,7 +76,7 @@
 <mat-card *ngIf="controlView == 2">
     <mat-card-content>
       <form class="form-horizontal" [formGroup]="objFormUsuario" >
-        <input type="hidden" name="id" [(ngModel)]="objFormUsuario.controls['idUser'].value" formControlName="idUser">
+        <input type="hidden" name="id" [(ngModel)]="objFormUsuario.controls['idContato'].value" formControlName="idContato">
         <mat-card-title>{{titleCard}}</mat-card-title>
             <mat-accordion class="example-headers-align" style="padding-top: 15px;">
                 <mat-expansion-panel [expanded]="step === 0" (opened)="setStep(0)" hideToggle="true">
@@ -87,37 +87,20 @@
                         </mat-panel-description>
                     </mat-expansion-panel-header>
                     <mat-form-field [color]="'warn'">
-                      <input matInput placeholder="Nome" [(ngModel)]="objFormUsuario.controls['nomeUser'].value" formControlName="nomeUser">
+                      <input matInput placeholder="Nome" [(ngModel)]="objFormUsuario.controls['nomeContato'].value" formControlName="nomeContato">
                     </mat-form-field>
                     <mat-form-field [color]="'warn'">
-                      <input matInput placeholder="Login" [(ngModel)]="objFormUsuario.controls['loginUser'].value" formControlName="loginUser">
+                      <input matInput placeholder="Email" type="email" [(ngModel)]="objFormUsuario.controls['emailContato'].value" formControlName="emailContato">
                     </mat-form-field>
                     <mat-form-field [color]="'warn'">
-                      <input matInput placeholder="Senha" type="password" [(ngModel)]="objFormUsuario.controls['senhaUser'].value" formControlName="senhaUser">
+                      <input matInput placeholder="Telefone" [(ngModel)]="objFormUsuario.controls['telefoneContato'].value" formControlName="telefoneContato">
                     </mat-form-field>
                     <mat-action-row>
                         <button mat-button color="warn" (click)="nextStep()">Próximo</button>
                     </mat-action-row>
                 </mat-expansion-panel>
+
                 <mat-expansion-panel [expanded]="step === 1" (opened)="setStep(1)" hideToggle="true">
-                    <mat-expansion-panel-header>
-                        <mat-panel-title> Tipo de Usuário </mat-panel-title>
-                        <mat-panel-description> Escolha o tipo de usuário
-                            <mat-icon>person_outline</mat-icon>
-                        </mat-panel-description>
-                    </mat-expansion-panel-header>
-                    <mat-form-field [color]="'warn'">
-                      <mat-select placeholder="Tipo de Usuário" [(ngModel)]="objFormUsuario.controls['tipoUser'].value" formControlName="tipoUser">
-                        <mat-option [value]="1">ADMIN</mat-option>
-                        <mat-option [value]="2">USER</mat-option>
-                      </mat-select>
-                    </mat-form-field>
-                    <mat-action-row>
-                        <button mat-button color="warn" (click)="prevStep()">Anterior</button>
-                        <button mat-button color="warn" (click)="nextStep()">Próximo</button>
-                    </mat-action-row>
-                </mat-expansion-panel>
-                <mat-expansion-panel [expanded]="step === 2" (opened)="setStep(2)" hideToggle="true">
                     <mat-expansion-panel-header>
                         <mat-panel-title> Data de Nascimento </mat-panel-title>
                         <mat-panel-description> Informe a data de nascimento
@@ -126,7 +109,7 @@
                     </mat-expansion-panel-header>
                     <mat-form-field [color]="'warn'">
                         <input matInput placeholder="Data de nascimento" [matDatepicker]="picker" (focus)="picker.open()" readonly
-                        [(ngModel)]="objFormUsuario.controls['dtNascUser'].value" formControlName="dtNascUser"> </mat-form-field>
+                        [(ngModel)]="objFormUsuario.controls['dtNascContato'].value" formControlName="dtNascContato"> </mat-form-field>
                     <mat-datepicker #picker></mat-datepicker>
                     <mat-action-row>
                         <button mat-button color="warn" (click)="prevStep()">Anterior</button>

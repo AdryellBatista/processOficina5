@@ -7,7 +7,6 @@ import {MatPaginatorModule, MatPaginator} from '@angular/material/paginator';
 import { GlobalsServices } from './../services/globals.services';
 import { ContatosServices } from './../services/contatos.services';
 
-
 @Component({
   selector: 'app-contatos',
   templateUrl: './contatos.component.html',
@@ -21,7 +20,7 @@ export class ContatosComponent implements OnInit{
 
   arUsuarios = [];
   temp = [];
-  displayedColumns: string[] = ['id', 'nome', 'login', 'tipo', 'dtNas', 'actions'];
+  displayedColumns: string[] = ['id', 'nome', 'telefone', 'email', 'dtNas', 'actions'];
   titleCard=""
   userLogado = JSON.parse(localStorage.getItem('USER'));
 
@@ -36,23 +35,22 @@ export class ContatosComponent implements OnInit{
   )
   {
     this.objFormUsuario = formBuilder.group({
-      idUser    : [],
-      loginUser : ['', Validators.required],
-      nomeUser  : ['', Validators.required],
-      tipoUser  : ['', Validators.required],
-      senhaUser : ['', Validators.required],
-      dtNascUser: []
+      idContato    : [],
+      nomeContato : ['', Validators.required],
+      dtNascContato  : ['', Validators.required],
+      telefoneContato  : ['', Validators.required],
+      emailContato : ['', Validators.required],
     });
   }
 
   ngOnInit(){
-    this.getUsuarios();
+    this.getContatos();
   }
 
-  getUsuarios(){
-    //this.arUsuarios = this.globalService.getUsuarios();
+  getContatos(){
+    //this.arUsuarios = this.globalService.getContatos();
 
-    this.globalService.getUsuarios().subscribe(
+    this.contatoService.getContatos().subscribe(
       data=>{
         this.arUsuarios = data;
         this.temp = this.arUsuarios;
@@ -64,7 +62,7 @@ export class ContatosComponent implements OnInit{
 
   newUser(){
     this.objFormUsuario.reset();
-    this.titleCard = "Novo usuário"
+    this.titleCard = "Novo Contato"
     this.controlView = 2;
     this.view = true;
   }
@@ -73,34 +71,34 @@ export class ContatosComponent implements OnInit{
     }
   save(){
     if(this.objFormUsuario.valid){
-      if(this.objFormUsuario.value.idUser){
+      if(this.objFormUsuario.value.idContato){
         //Update
-        this.globalService.updateUsuario(this.objFormUsuario.value).subscribe(
+        this.contatoService.updateContato(this.objFormUsuario.value).subscribe(
           data=>{
-            this.getUsuarios();
+            this.getContatos();
             this.controlView = 1;
-            this.openSnackBar('Usuário Editado com sucesso!','');
+            this.openSnackBar('Contato Editado com sucesso!','');
           },
           err=>{
-            this.openSnackBar('Erro ao Editar usuário!','');
+            this.openSnackBar('Erro ao Editar contato!','');
 
           }
         );
-        // this.getUsuarios();
+        // this.getContatos();
         // this.userLogado = JSON.parse(localStorage.getItem('USER'));
         // this.controlView = 1;
 
       }else{
         //save
         console.log(this.objFormUsuario.value);
-        this.globalService.addUsuario(this.objFormUsuario.value).subscribe(
+        this.contatoService.addContato(this.objFormUsuario.value).subscribe(
           data=>{
-            this.getUsuarios();
+            this.getContatos();
             this.controlView = 1;
-            this.openSnackBar('Usuário Salvo com sucesso!','');
+            this.openSnackBar('Contato Salvo com sucesso!','');
           },
           err=>{
-            this.openSnackBar('Erro ao Salvar usuário!','');
+            this.openSnackBar('Erro ao Salvar contato!','');
 
           }
         );
@@ -114,12 +112,11 @@ export class ContatosComponent implements OnInit{
   view : boolean;
   edit(obj, view){
     this.view = view;
-    this.objFormUsuario.controls['idUser'].setValue(obj.idUser);
-    this.objFormUsuario.controls['loginUser'].setValue(obj.loginUser);
-    this.objFormUsuario.controls['nomeUser'].setValue(obj.nomeUser);
-    this.objFormUsuario.controls['tipoUser'].setValue(obj.tipoUser);
-    this.objFormUsuario.controls['senhaUser'].setValue(obj.senhaUser);
-    this.objFormUsuario.controls['dtNascUser'].setValue(obj.dtNascUser);
+    this.objFormUsuario.controls['idContato'].setValue(obj.idContato);
+    this.objFormUsuario.controls['nomeContato'].setValue(obj.nomeContato);
+    this.objFormUsuario.controls['dtNascContato'].setValue(obj.dtNascContato);
+    this.objFormUsuario.controls['telefoneContato'].setValue(obj.telefoneContato);
+    this.objFormUsuario.controls['emailContato'].setValue(obj.emailContato);
     this.controlView = 2;
     this.titleCard = "Editar " + obj.nome;
 
@@ -130,17 +127,17 @@ export class ContatosComponent implements OnInit{
 
   cofirmaDelete(obj){
 
-    let dialogRef = this.dialog.open(DialogOverviewDialog, {
+    let dialogRef = this.dialog.open(DialogOverviewDialogContato, {
       width: '350px',
-      data: { idUser: obj.idUser, nomeUser: obj.nomeUser }
+      data: { id: obj.idContato, nome: obj.nomeContato }
     });
     dialogRef.afterClosed().subscribe(result => {
       if(result != undefined){
-        this.globalService.deleteUsuario(result).subscribe(data => {
-          console.log("Chamou? ", data);
-          this.getUsuarios();
+        this.contatoService.deleteContato(result).subscribe(data => {
+          // console.log("Chamou? ", data);
+          this.getContatos();
           this.controlView = 1;
-          this.openSnackBar('Usuário Excluído com sucesso!','');
+          this.openSnackBar('Contato Excluído com sucesso!','');
        });
       }
 
@@ -237,10 +234,10 @@ export class ContatosComponent implements OnInit{
 
 </div>`
 })
-export class DialogOverviewDialog {
+export class DialogOverviewDialogContato {
 
   constructor(
-    public dialogRef: MatDialogRef<DialogOverviewDialog>,
+    public dialogRef: MatDialogRef<DialogOverviewDialogContato>,
     @Inject(MAT_DIALOG_DATA) public data: any) { }
 
   onNoClick(): void {
