@@ -7,11 +7,11 @@
   <div fxFlex.gt-sm="25" fxFlex.gt-xs="25" fxFlex="25" style="color: #fff; padding-top: 43px;">
     <form class="form-horizontal" [formGroup]="objForm" >
       <mat-form-field [color]="'warn'">
-          <input matInput class="campo" required [(ngModel)]="objForm.controls['user'].value" formControlName="user">
+          <input matInput class="campo" required formControlName="user">
           <mat-placeholder class="placeholder">Login</mat-placeholder>
       </mat-form-field>
       <mat-form-field [color]="'warn'">
-          <input matInput class="campo" required type="password" [(ngModel)]="objForm.controls['senha'].value" formControlName="senha">
+          <input matInput class="campo" required type="password" formControlName="senha">
           <mat-placeholder class="placeholder">senha</mat-placeholder>
       </mat-form-field>
       <button mat-raised-button color="warn" (click)="logar()">Entrar</button>
