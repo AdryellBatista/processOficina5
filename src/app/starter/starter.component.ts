@@ -3,6 +3,7 @@ import {FormBuilder, FormGroup} from '@angular/forms';
 import {FormControl, Validators} from '@angular/forms';
 
 import { GlobalsServices } from './../services/globals.services';
+import { ContatosServices } from './../services/contatos.services';
 
 @Component({
   selector: 'starter',
@@ -13,10 +14,12 @@ export class StarterComponent implements AfterViewInit, OnInit{
     ngAfterViewInit(){}
     constructor(
       private globalService : GlobalsServices,
+      private contatosServices : ContatosServices
     ){}
     admin = 0
     user = 0
     arUsuarios = [];
+    arContatos = [];
     ngOnInit(){
 
 
@@ -32,6 +35,12 @@ export class StarterComponent implements AfterViewInit, OnInit{
               this.user += 1;
             }
           }
+        }
+      );
+
+      this.contatosServices.getContatos().subscribe(
+        data=>{
+          this.arContatos = data;
         }
       );
     }

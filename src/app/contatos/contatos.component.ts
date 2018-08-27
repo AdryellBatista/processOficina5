@@ -23,7 +23,7 @@ export class ContatosComponent implements OnInit{
   displayedColumns: string[] = ['id', 'nome', 'telefone', 'email', 'dtNas', 'actions'];
   titleCard=""
   userLogado = JSON.parse(localStorage.getItem('USER'));
-  mask = ['(', /[1-9]/, /\d/,')', ' ', /\d/, /\d/, /\d/, /\d/, '-', /\d/, /\d/, /\d/, /\d/];
+  mask = ['(', /[1-9]/, /\d/,')', '', /\d/, /\d/, /\d/, /\d/, '-', /\d/, /\d/, /\d/, /\d/];
   objFormUsuario:   FormGroup;
 
   constructor(
