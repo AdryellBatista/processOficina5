@@ -16,7 +16,7 @@ export class TokenInterceptor implements HttpInterceptor {
     if(!token){token = ""}; //evitar erro com valor nulo
 
     request = request.clone({
-      setHeaders: {'x-access-token': token }
+      setHeaders: {'authorization': "Bearer " + token }
     });
 
     let that = this;

@@ -23,7 +23,7 @@ export class ContatosComponent implements OnInit{
   displayedColumns: string[] = ['id', 'nome', 'telefone', 'email', 'dtNas', 'actions'];
   titleCard=""
   userLogado = JSON.parse(localStorage.getItem('USER'));
-
+  mask = ['(', /[1-9]/, /\d/,')', ' ', /\d/, /\d/, /\d/, /\d/, '-', /\d/, /\d/, /\d/, /\d/];
   objFormUsuario:   FormGroup;
 
   constructor(
@@ -80,8 +80,11 @@ export class ContatosComponent implements OnInit{
             this.openSnackBar('Contato Editado com sucesso!','');
           },
           err=>{
-            this.openSnackBar('Erro ao Editar contato!','');
-
+            if(err.error.message){
+              this.openSnackBar(err.error.message,'');
+            }else{
+              this.openSnackBar('Erro ao Editar contato!','');
+            }
           }
         );
         // this.getContatos();
@@ -98,8 +101,11 @@ export class ContatosComponent implements OnInit{
             this.openSnackBar('Contato Salvo com sucesso!','');
           },
           err=>{
-            this.openSnackBar('Erro ao Salvar contato!','');
-
+            if(err.error.message){
+              this.openSnackBar(err.error.message,'');
+            }else{
+              this.openSnackBar('Erro ao Salvar contato!','');
+            }
           }
         );
 

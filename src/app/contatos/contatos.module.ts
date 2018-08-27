@@ -7,6 +7,7 @@ import { ContatosComponent, DialogOverviewDialogContato } from './contatos.compo
 import { ContatosRoutes } from './contatos.routing';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
+import { TextMaskModule } from 'angular2-text-mask';
 
 @NgModule({
   imports: [
@@ -15,8 +16,8 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
       FlexLayoutModule,
     RouterModule.forChild(ContatosRoutes),
     FormsModule,
-    ReactiveFormsModule
-
+    ReactiveFormsModule,
+    TextMaskModule
   ],
   entryComponents: [
     DialogOverviewDialogContato

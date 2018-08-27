@@ -38,6 +38,7 @@ export class LoginComponent {
         data=>{
           console.log("DATA :: ", data);
           localStorage.setItem('USER',JSON.stringify(data[0]));
+          localStorage.setItem('token', data[0].token);
           this.router.navigate(["/starter"]);
         },
         err=>{

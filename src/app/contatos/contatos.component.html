@@ -93,7 +93,7 @@
                       <input matInput placeholder="Email" type="email" [(ngModel)]="objFormUsuario.controls['emailContato'].value" formControlName="emailContato">
                     </mat-form-field>
                     <mat-form-field [color]="'warn'">
-                      <input matInput placeholder="Telefone" [(ngModel)]="objFormUsuario.controls['telefoneContato'].value" formControlName="telefoneContato">
+                      <input matInput placeholder="Telefone" [textMask]="{mask: mask}" [(ngModel)]="objFormUsuario.controls['telefoneContato'].value" formControlName="telefoneContato">
                     </mat-form-field>
                     <mat-action-row>
                         <button mat-button color="warn" (click)="nextStep()">Próximo</button>
