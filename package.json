@@ -13,9 +13,9 @@
     "e2e": "ng e2e"
   },
   "engines": {
-  "node": "8.9.4",
-  "npm": "5.0.6"
-},
+    "node": "8.9.4",
+    "npm": "5.6.0"
+  },
   "private": true,
   "dependencies": {
     "@angular-devkit/core": "0.6.3",
