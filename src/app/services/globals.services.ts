@@ -2,7 +2,9 @@ import { Observable } from 'rxjs/Rx';
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 
-const  url = "http://localhost:3000/api/";
+
+// const  url = "http://localhost:3001/api/";
+const  url = "https://teste-oficina5-api.herokuapp.com/api/";
 @Injectable()
 export class GlobalsServices {
 	constructor(
