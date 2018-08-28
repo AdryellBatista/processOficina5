@@ -119,7 +119,7 @@ export class UsuariosComponent implements OnInit{
     this.objFormUsuario.controls['senhaUser'].setValue(obj.senhaUser);
     this.objFormUsuario.controls['dtNascUser'].setValue(obj.dtNascUser);
     this.controlView = 2;
-    this.titleCard = "Editar " + obj.nome;
+    this.titleCard = "Editar " + obj.nomeUser;
 
   }
   delete(id){

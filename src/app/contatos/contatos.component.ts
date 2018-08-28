@@ -124,7 +124,7 @@ export class ContatosComponent implements OnInit{
     this.objFormUsuario.controls['telefoneContato'].setValue(obj.telefoneContato);
     this.objFormUsuario.controls['emailContato'].setValue(obj.emailContato);
     this.controlView = 2;
-    this.titleCard = "Editar " + obj.nome;
+    this.titleCard = "Editar " + obj.nomeContato;
 
   }
   delete(id){
