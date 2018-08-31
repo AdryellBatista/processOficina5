@@ -70,7 +70,7 @@ export class ContatosComponent implements OnInit{
       // changes.prop contains the old and the new value...
     }
   save(){
-    debugger;
+  //  debugger;
     if(this.objFormUsuario.valid){
       if(this.objFormUsuario.value.idContato){
         //Update
